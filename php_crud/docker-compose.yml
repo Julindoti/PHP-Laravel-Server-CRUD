@@ -1,0 +1,25 @@
+services:
+    laravel-server:
+        container_name: backend_laravel
+        build:
+            context: .
+            dockerfile: server.Dockerfile
+        command: php artisan serve --host=0.0.0.0
+        volumes:
+            - .:/app
+        ports:
+            - "8000:8000"
+        working_dir: /app
+
+    vite-dev:
+        container_name: frontend_vite
+        image: node:latest 
+        command: npm run dev -- --host 0.0.0.0
+        volumes:
+            - .:/app
+        ports:
+            - "5173:5173"
+        working_dir: /app
+        depends_on:
+            - laravel-server
+
