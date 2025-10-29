@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "@/components/ui/button";
 
 function LoginModal(){
   return(
@@ -12,13 +13,13 @@ function LoginModal(){
             <input type="email" placeholder="" className="p-1 border border-gray-600" />
             <label className="">Senha</label>
             <input type="password" placeholder="" className="p-1 border border-gray-600 " />
+            
             <span className="text-sm self-center">
                 Não possui uma conta? <a href="/" className="text-blue-600"> clique aqui</a> !
 
             </span>
-            <button type="submit"
-                className=" rounded-md bg-black text-sm text-white self-end h-10 w-20 hover:bg-gray-700 transition-all duration-200 ease-in-out">
-                Conectar</button>
+            <Button type="submit">
+                Conectar</Button>
         </form>
         </div>
     </>
