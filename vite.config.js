@@ -15,4 +15,11 @@ export default defineConfig({
             '@': '/resources/js',
         },
     },
+    server:{
+       host: 'localhost',
+        watch:{
+            usePoling: true,
+        },
+
+    },
 });

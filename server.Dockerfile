@@ -24,6 +24,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN composer install --no-interaction --prefer-dist
+RUN composer install --no-interaction --prefer-dist && php artisan key:generate
+
+RUN npm install
 
 EXPOSE 8000
