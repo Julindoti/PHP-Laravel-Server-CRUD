@@ -13,9 +13,9 @@ function LoginModal(){
             <input type="email" placeholder="" className="p-1 border border-gray-600" />
             <label className="">Senha</label>
             <input type="password" placeholder="" className="p-1 border border-gray-600 " />
-            
+
             <span className="text-sm self-center">
-                Não possui uma conta? <a href="/" className="text-blue-600"> clique aqui</a> !
+                Não possui uma conta? <a href="/signup" className="text-blue-600"> clique aqui</a> !
 
             </span>
             <Button type="submit">
