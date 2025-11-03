@@ -10,13 +10,15 @@ export const SignInAuthSchema= z.object({
         message: "Email valido é necessario para o cadastro",
     }),
     password: z.string().min(8, {
-        message:"A senha deve conter pelo menos 8 caracteres",        
+        message:"A senha deve conter pelo menos 8 caracteres",
     }),
     confirmPassword: z.string().min(8, {
         message:"As senhas devem ser iguais!"
     }),
 }).refine((data) => data.password === data.confirmPassword, {
-    message: "As senhas não são iguais"
+    message: "As senhas não são iguais",
+    path:["confirmPassword"],
+
 });
 
 export type SigInAuthValue = z.infer<typeof SignInAuthSchema>;
