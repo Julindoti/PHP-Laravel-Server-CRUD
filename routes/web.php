@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 Route::get('/signin', function () {
-    return Inertia::render('Login');
+    return Inertia::render('SignInPage');
 });
 Route::get('/signup', function(){
-    return Inertia::render('SignInPage');
+    return Inertia::render('SignUpPage');
 });
 Route::get('/homepage', function(){
     return Inertia::render('HomePage');

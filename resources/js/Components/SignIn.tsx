@@ -1,4 +1,4 @@
-import { type SigInAuthValue, SignInAuthSchema } from "@/Auth/SingInAuth";
+import { type SignInAuthValue, SignInAuthSchema } from "@/Auth/SignInAuth";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -9,95 +9,59 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { router } from "@inertiajs/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import api from '@/api'
+import api from "@/api";
 import { ToastContainer, toast }  from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {router} from "@inertiajs/react";
-
 
 const SignInForm = () => {
-    const defaultValues: Partial<SigInAuthValue> = {
-        username: "",
+    const defaultValues: Partial<SignInAuthValue> = {
         email: "",
         password: "",
-        confirmPassword: "",
     };
 
-    const form = useForm<SigInAuthValue>({
+    const form = useForm<SignInAuthValue>({
         resolver: zodResolver(SignInAuthSchema),
-        defaultValues,
-        mode: "onChange",
+        mode: "onSubmit",
     });
-    async function onSubmit(values: SigInAuthValue) {
+    async function onSubmit(values: SignInAuthValue) {
 
-        const payload = {
+        try {const response = await api.post('/api/user/login', values)
 
-           username: values.username,
-           email: values.email,
-           password:  values.password,
-           password_confirmation: values.confirmPassword
-       };
+            if(response.data?.code != 201){
 
-        try{
-        const response = await api.post('/api/user/create', payload);
-            if(response.status != 201 ){
-                console.log("Error when trying to create user", response.data?.message);
+                console.error("The request failed to load properly", response.status);
+                toast.error("Credenciais invalidas");
                 return
-        }
-
-              console.log("User was submmited with success", response.data);
-              toast.success("Usuário cadastrado com sucesso!")
-
-        form.reset(values)
-        }catch(err){
-            console.log(err.response.status)
-            if(err.response.status == 422){
-               console.log("The specied email not avaiable anymore on our system ")/
-                toast.error("Este email está cadastrado");
-                return;
             }
-            console.error("Error when trying request the server API", err)
+            console.log("User was logged with constess", values);
+            toast.success("Login relizado com sucesso!")
+            router.visit('/homepage')
+
+        }catch(err){
+            console.error("Something went wrong when executing the login ")
         }
 
-    }
-     const handleCancel = () =>{
-
-          router.visit("/signin")
     }
     return (
-        <>
+            <>
+
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
-                closeOnClickaa
+                closeOnClick
                 pauseOnHover
                 hideProgressBar={true}
-                Theme="Light"
+                theme="light"
             />
             <Form {...form} >
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-2 bg-white p-4 w-1/4 text-md rounded-md flex flex-col"
+                    className="space-y-6 bg-white p-4 w-1/4 text-md rounded-md flex flex-col"
                 >
                 <div className="text-black font-semibold text-[21px]"> SignIn</div>
-                    <FormField
-                        control={form.control}
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Nome</FormLabel>
-                                      <FormControl>
-                                    <Input
-                                        placeholder="Digite aqui seu nome de usuario"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+
                     <FormField
                       control={form.control}
                       name="email"
@@ -125,35 +89,17 @@ const SignInForm = () => {
                          <FormMessage />
                         </FormItem>
                         )}
-
                     />
-                    <FormField
-                      control={form.control}
-                      name="confirmPassword"
-                      render={({field})=>(
-                         <FormItem>
-                          <FormLabel>Confirme sua senha</FormLabel>
-                          <FormControl>
-                          <Input placeholder="Digite novamente sua senha" {...field}/>
-                         </FormControl>
-                         <FormMessage />
-                        </FormItem>
-                        )}
+                    <span className="self-center">
+                      Não tem uma conta? <a href="/signup" className="text-blue-500">clique aqui!</a>
+                    </span>
+                    <Button>Entrar</Button>
 
-                    />
-                    <div className="justify-self-center self-center">
-                        Já tem uma conta? <a href="/signin" className="text-blue-500">entre aqui!</a>
-                    </div>
-                    <div className="gap-5 flex self-center items-center justify-center w-full border" >
+                    </form>
 
-                    <Button type="submit" className="justify-self-start">Confirmar</Button>
-                    <Button href="/signin" type="button" onClick={handleCancel}className="justify-self-end bg-white border border-black text-black hover:text-white
-                        transition-all duration-200"
-                    >Cancelar</Button>
-                    </div>
-                </form>
-            </Form>
-        </>
-    );
-};
+                    </Form>
+                    </>
+         )
+}
+
 export default SignInForm;

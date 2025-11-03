@@ -19,12 +19,12 @@ class UserController extends Controller
 
     public function store(UserStoreRequest $request): JsonResponse
     {
-     $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
         $user = User::create([
-        'name' => $validatedData['username'],
-        'email' => $validatedData['email'],
-        'password' => Hash::make($validatedData['password']),
+            'name' => $validatedData['username'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
         ]);
         return response()->json([
             'message' => 'User was registred with success',
@@ -32,7 +32,8 @@ class UserController extends Controller
         ], 201);
 
     }
-    public function login(Request $request): JsonResponse{
+    public function login(Request $request): JsonResponse
+    {
 
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -40,18 +41,18 @@ class UserController extends Controller
 
         ]);
 
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
 
             Redirect::to('/homepage');
             return response()->json([
-                'message' =>  "Login successful",
+                'message' => "Login successful",
                 'code' => 201,
             ], 201);
         }
         throw ValidationException::withMessages([
-                'email' => ["The email informed was invalid"],
+            'email' => ["The email informed was invalid"],
         ]);
     }
     public function index()
@@ -64,13 +65,13 @@ class UserController extends Controller
      */
     public function create()
     {
-    //
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-        /**
+    /**
      * Display the specified resource.
      */
     public function show(string $id)

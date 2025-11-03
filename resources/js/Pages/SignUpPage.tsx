@@ -1,7 +1,9 @@
+import SignUpForm from "../Components/SignUp";
 import { Head } from "@inertiajs/react";
-import SignUpForm from "../Components/SignIn";
+import { usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
-export default function SignInPage() {
+
+export default function SignUpPage() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -9,14 +11,13 @@ export default function SignInPage() {
             setIsLoaded(true);
         }, 10);
     }, []);
+
     return (
         <>
-            <Head title="SignUp" />
-            <div
-                className={`h-dvh w-full  overflow-hidden bg-gradient-to-t from-slate-800 to-slate-950 flex justify-center items-center `}
-            >
+            <Head title="SignIn" />
+            <div className="h-dvh w-full  overflow-hidden bg-gradient-to-t from-slate-800 via-gray-900 to-slate-950  flex justify-center items-center">
                 <div
-                    className={` h-auto w-full flex justify-center align-center transition-all duration-1000 ${
+                    className={`flex justify-center items-center w-full transition all duration-1000 ${
                         isLoaded
                             ? "opacity-100 translate-x-0"
                             : "opacity-0 -translate-x-full"
