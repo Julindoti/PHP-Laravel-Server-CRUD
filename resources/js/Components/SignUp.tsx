@@ -74,7 +74,7 @@ const SignUpForm = () => {
                 closeOnClick
                 pauseOnHover
                 hideProgressBar={true}
-                theme="light"
+                theme="Light"
             />
             <Form {...form}>
                 <form
@@ -126,6 +126,7 @@ const SignUpForm = () => {
                                 <FormLabel>Senha</FormLabel>
                                 <FormControl>
                                     <Input
+                                        type="password"
                                         placeholder="Digite aqui sua senha"
                                         {...field}
                                     />
@@ -142,6 +143,7 @@ const SignUpForm = () => {
                                 <FormLabel>Confirme sua senha</FormLabel>
                                 <FormControl>
                                     <Input
+                                        type="password"
                                         placeholder="Digite novamente sua senha"
                                         {...field}
                                     />

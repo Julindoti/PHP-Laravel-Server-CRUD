@@ -88,7 +88,7 @@ const SignInForm = () => {
                         <FormItem>
                           <FormLabel>Senha</FormLabel>
                           <FormControl>
-                          <Input placeholder="Digite aqui sua senha" {...field} />
+                          <Input type="password" placeholder="Digite aqui sua senha" {...field} />
                          </FormControl>
                          <FormMessage />
                         </FormItem>
