@@ -23,24 +23,28 @@ const SignInForm = () => {
 
     const form = useForm<SignInAuthValue>({
         resolver: zodResolver(SignInAuthSchema),
+        defaultValues,
         mode: "onSubmit",
     });
     async function onSubmit(values: SignInAuthValue) {
 
-        try {const response = await api.post('/api/user/login', values)
+        try {
 
-            if(response.data?.code != 201){
-
-                console.error("The request failed to load properly", response.status);
-                toast.error("Credenciais invalidas");
-                return
-            }
-            console.log("User was logged with constess", values);
+            const response = await api.post('/api/user/login', values)
+            console.log("User was logged with success", values);
             toast.success("Login relizado com sucesso!")
             router.visit('/homepage')
 
-        }catch(err){
+        }catch(err: any){
+                if(err.response.status === 422){
+
+                console.error("The request failed to load properly", err.response.status);
+                toast.error("Credenciais invalidas");
+                return
+            }
             console.error("Something went wrong when executing the login ")
+            toast.error("O servidor falhou. Por favor, tente novamente mais tarde");
+            return;
         }
 
     }
