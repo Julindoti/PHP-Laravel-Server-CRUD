@@ -1,29 +1,105 @@
-import React from "react";
+import { type SignUpAuthValue, SignUpAuthSchema } from "@/Auth/SignUpAuth";
 import { Button } from "@/components/ui/button";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { router } from "@inertiajs/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import api from "@/api";
+import { ToastContainer, toast }  from 'react-toastify';
 
-function LoginModal(){
-  return(
-    <>
-    <div
-        className="bg-white gap-4 p-10 py-2 rounded-md justify-center items-center text-lg h-110 w-90 justify-self-center flex ">
-        <form
-            className=" relative p-2 h-full w-full gap-4  justify-self-center self-center flex flex-col">
-            <label className="self-center font-bold text-lg">Login</label>
-            <label className="">Email</label>
-            <input type="email" placeholder="" className="p-1 border border-gray-600" />
-            <label className="">Senha</label>
-            <input type="password" placeholder="" className="p-1 border border-gray-600 " />
+const SignUpForm = () => {
+    const defaultValues: Partial<SigInAuthValue> = {
+        email: "",
+        password: "",
+    };
 
-            <span className="text-sm self-center">
-                Não possui uma conta? <a href="/signup" className="text-blue-600"> clique aqui</a> !
+    const form = useForm<SignUpAuthValue>({
+        resolver: zodResolver(SignUpAuthSchema),
+        mode: "onSubmit",
+    });
+    async function onSubmit(values: SignUpAuthValue) {
 
-            </span>
-            <Button type="submit">
-                Conectar</Button>
-        </form>
-        </div>
-    </>
-  )
+        try {const response = await api.post('/api/user/login', values)
+
+            if(response.data?.code != 201){
+
+                console.error("The request failed to load properly", response.status);
+                toast.error("Credenciais invalidas");
+                return
+            }
+            console.log("User was logged with constess", values);
+            toast.success("Login relizado com sucesso!")
+            router.visit('/homepage')
+
+        }catch(err){
+            console.error("Something went wrong when executing the login ")
+        }
+
+    }
+    return (
+            <>
+
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                closeOnClick
+                pauseOnHover
+                hideProgressBar={true}
+                Theme="Light"
+            />
+            <Form {...form} >
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6 bg-white p-4 w-1/4 text-md rounded-md flex flex-col"
+                >
+                <div className="text-black font-semibold text-[21px]"> SignUp</div>
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({field}) =>(
+                        <FormItem >
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="Digite aqui seu email"
+                          {...field }/>
+                        </FormControl>
+                        <FormMessage />
+
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({field})=> (
+                        <FormItem>
+                          <FormLabel>Senha</FormLabel>
+                          <FormControl>
+                          <Input placeholder="Digite aqui sua senha" {...field} />
+                         </FormControl>
+                         <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <span className="self-center">
+                      Não tem uma conta? <a href="/signup" className="text-blue-500">clique aqui!</a>
+                    </span>
+                    <Button>Entrar</Button>
+
+                    </form>
+
+                    </Form>
+                    </>
+         )
 }
 
-export default LoginModal;
+export default SignUpForm;
