@@ -23,6 +23,7 @@ const SignInForm = () => {
 
     const form = useForm<SignInAuthValue>({
         resolver: zodResolver(SignInAuthSchema),
+        defaultValues,
         mode: "onSubmit",
     });
     async function onSubmit(values: SignInAuthValue) {
