@@ -14,7 +14,7 @@ export default function SignUpPage() {
 
     return (
         <>
-            <Head title="SignIn" />
+            <Head title="SignUp" />
             <div className="h-dvh w-full  overflow-hidden bg-gradient-to-t from-slate-800 via-gray-900 to-slate-950  flex justify-center items-center">
                 <div
                     className={`flex justify-center items-center w-full transition all duration-1000 ${

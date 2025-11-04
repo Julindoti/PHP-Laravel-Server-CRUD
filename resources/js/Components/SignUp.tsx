@@ -74,7 +74,7 @@ const SignUpForm = () => {
                 closeOnClick
                 pauseOnHover
                 hideProgressBar={true}
-                theme="Light"
+                theme="light"
             />
             <Form {...form}>
                 <form

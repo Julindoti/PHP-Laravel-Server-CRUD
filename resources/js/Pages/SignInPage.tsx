@@ -11,7 +11,7 @@ export default function SignInPage() {
     }, []);
     return (
         <>
-            <Head title="SignUp" />
+            <Head title="SignIn" />
             <div
                 className={`h-dvh w-full  overflow-hidden bg-gradient-to-t from-slate-800 to-slate-950 flex justify-center items-center `}
             >
